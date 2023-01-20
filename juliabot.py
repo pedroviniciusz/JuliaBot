@@ -16,9 +16,9 @@ JULIA = "julia"
 def _main_():
     public_tweets = api.search_tweets(JULIA)
     for tweet in public_tweets:
-        string = tweet.text
+        text = tweet.text
         user = tweet.user.name
-        if JULIA in string or user:
+        if JULIA in text and user:
             id = tweet.id
     api.retweet(id)
 
