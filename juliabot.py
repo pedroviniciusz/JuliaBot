@@ -1,4 +1,4 @@
-from re import search
+from datetime import datetime
 import tweepy
 import time
 
@@ -14,14 +14,16 @@ api = tweepy.API(auth, wait_on_rate_limit=True)
 JULIA = "julia"
 
 def _main_():
-    public_tweets = api.search_tweets(JULIA)
-    for tweet in public_tweets:
-        text = tweet.text
-        user = tweet.user.name
-        if JULIA in text and user:
-            id = tweet.id
-    api.retweet(id)
+    for tweet in api.search_tweets(q=JULIA, lang="pt", result_type="recent", count=100):
+        try:
+             if JULIA in tweet.text:
+                tweet.retweet()
+        except Exception as e:
+            print(e)
+            print("Este tweet já foi retweetado")
 
 while True:
     _main_()
-    time.sleep(3600)
+    print('Pausando busca por 30 minutos')
+    print('Hora que foi pausado: ' + datetime.now().strftime('%d/%m/%Y %H:%M')) 
+    time.sleep(1800)
