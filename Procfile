@@ -1,1 +1,1 @@
-worker: python juliabot.py
+worker: python main.py
